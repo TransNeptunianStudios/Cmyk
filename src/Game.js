@@ -27,7 +27,7 @@ Cmyk.Game.prototype = {
 		this._fontStyle = { font: "40px Arial", fill: "#FFCC00", stroke: "#333", strokeThickness: 5, align: "center" };
 		
 		// initialize the moves text with 0
-		this._movesText = this.add.text(20, 20, "0", this._fontStyle);
+		this._movesText = this.add.text(15, 15, "0", this._fontStyle);
 
 		// initialize keyboard
     	cursors = this.input.keyboard.createCursorKeys();
@@ -73,8 +73,10 @@ Cmyk.Game.prototype = {
 		this._movesText.setText(this._moves);
 	},
 	flip: function(){
+		var axisMod = Math.abs(this._board.angle) == 90 ? -1 : 1;
 		this._boardTween = this.add.tween(this._board.scale).to (
-										{ y: this._board.scale.y * -1 }
+										{ x: this._board.scale.x * axisMod ,
+										  y: this._board.scale.y * -axisMod }
 										, 750, Phaser.Easing.Bounce.Out
 										, true);
 		this._moves += 1;

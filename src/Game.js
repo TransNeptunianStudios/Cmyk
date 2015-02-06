@@ -3,9 +3,8 @@ Cmyk.Game = function(game){
 	this._board = null;
 	this._boardTween = null;
 
-	this._leftBeenReleased = true;
-	this._rightBeenReleased = true;
-	this._downBeenReleased = true;
+	// Checking what keys have been released
+	this._keyReleased = new Array();
 
 	this._moves = 0;
 	this._movesText = null;
@@ -32,38 +31,34 @@ Cmyk.Game.prototype = {
 
 		// initialize keyboard
     	cursors = this.input.keyboard.createCursorKeys();
+		this._keyReleased[cursors.left] = true;
+		this._keyReleased[cursors.right] = true;
+		this._keyReleased[cursors.down] = true;
+		this._keyReleased[cursors.up] = true;
 	},
 	update: function(){
  
  		// Get keys
  		// there myst be a nicer way!? look into TweenManager.istweening
-		if (this._leftBeenReleased && cursors.left.isDown 
-			&& (!this._boardTween || !this._boardTween.isRunning))
-		{ 
-			this.rotateCW();
-			this._leftBeenReleased = false;
-		}
-		else if (this._rightBeenReleased && cursors.right.isDown 
-			&& (!this._boardTween || !this._boardTween.isRunning))
-		{
+		if (this.moveAllowed(cursors.left))
 			this.rotateCCW();
-			this._rightBeenReleased = false;
-		}
-		else if (this._downBeenReleased && cursors.down.isDown 
-			&& (!this._boardTween || !this._boardTween.isRunning))
-		{
+		else if (this.moveAllowed(cursors.right))
+			this.rotateCW();
+		else if (this.moveAllowed(cursors.down) || this.moveAllowed(cursors.up))
 			this.flip();
-			this._downBeenReleased = false
+		
+	},
+	moveAllowed: function(key){
+		 if(!this._keyReleased[key] && key.isUp)
+			this._keyReleased[key] = true;	
+				
+		if (this._keyReleased[key] && key.isDown 
+			&& (!this._boardTween || !this._boardTween.isRunning))
+		{		 
+			this._keyReleased[key] = false;		
+			return true;
 		}
-		else if(!this._leftBeenReleased && cursors.left.isUp){
-			this._leftBeenReleased = true;
-		}
-		else if(!this._rightBeenReleased && cursors.right.isUp){
-			this._rightBeenReleased = true;
-		}
-		else if(!this._downBeenReleased && cursors.down.isUp){
-			this._downBeenReleased = true;
-		}
+		return false;
 	},
 	rotateCW: function(){
 		this._boardTween = this.add.tween(this._board)

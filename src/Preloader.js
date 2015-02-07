@@ -14,6 +14,7 @@ Cmyk.Preloader.prototype = {
 		this.load.image('background', 'assets/background.png');
 		this.load.image('title', 'assets/title.png');
 		this.load.image('board', 'assets/board.png');
+		this.load.image('block', 'assets/block.png');
 
 		// load spritesheets
 		this.load.spritesheet('button-start', 'assets/button-start.png', 200, 100);

@@ -4,11 +4,13 @@
     <meta charset="utf-8" />
     <title>Cmyk - Work in progress game and name</title>
     <style> body { margin: 0; background: #B4D9E7; } </style>
-    <script src="src/phaser.js"></script><!--change for release -->
+    <script src="src/lib/phaser.js"></script>	
+	<script src="src/lib/math.js"></script>
+
     <script src="src/Boot.js"></script>
     <script src="src/Preloader.js"></script>
-    <script src="src/MainMenu.js"></script>
     <script src="src/Game.js"></script>
+	<script src="src/BoardDisplay.js"></script>
 </head>
 <body>
 <script>
@@ -16,7 +18,6 @@
     var game = new Phaser.Game(500, 500, Phaser.AUTO, 'game');
     game.state.add('Boot', Cmyk.Boot);
     game.state.add('Preloader', Cmyk.Preloader);
-    game.state.add('MainMenu', Cmyk.MainMenu);
     game.state.add('Game', Cmyk.Game);
     game.state.start('Boot');
 })();
